@@ -1,29 +1,7 @@
 import pygame
-# from player import *
+from player import Player
 
-class player():
-    def __init__(self, x, y):
-        self.rect = pygame.Rect((x, y, 80, 180))
-        
-    def draw(self, surface):
-        pygame.draw.rect(surface, (0, 0, 255), self.rect)
-#         print("Here")
-    def move(self):
-        SPEED = 10
-        dx = 0
-        dy = 0
-        
-        key = pygame.key.get_pressed()
-        
-        if key[pygame.K_a]:
-            dx = -SPEED
-        if key[pygame.K_d]:
-            dx = SPEED
-            
-        self.rect.x += dx
-        
-        
-print(player)
+print(Player)
 
 pygame.init()
 
@@ -34,15 +12,17 @@ play = True
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("MK vol 2")
 
-player1 = player(270, 400)
-player2 = player(810, 400)
+player1 = Player(270, 400)
+player2 = Player(810, 400)
 
 
 bg_image = pygame.image.load("test.jpg").convert_alpha()
 
+#Making the game run uniformly on 60FPS
 clock = pygame.time.Clock()
 FPS = 60
 
+#Background image function
 def bg():
     screen.blit(bg_image, (0,0))
     
@@ -50,13 +30,15 @@ def bg():
 #Game loop
 while play == True:
     
+    #Makes this loop run 60FPS
     clock.tick(FPS)
     
+    #Displays the background image
     bg()
     
     #Move fighter
-    player1.move()
-    player2.move()
+    player1.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen)
+    
     
     #Draw the fighters on the screen
     player1.draw(screen)
@@ -64,7 +46,6 @@ while play == True:
     
     #Closing the program
     for event in pygame.event.get():
-#         print(event)
         if event.type == pygame.QUIT:
             play = False
          
