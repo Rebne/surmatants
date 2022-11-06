@@ -37,8 +37,8 @@ while play == True:
     bg()
     
     #Move fighter
-    player1.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen)
-    
+    player1.move("left" ,SCREEN_WIDTH, SCREEN_HEIGHT, screen)
+    player2.move("right" ,SCREEN_WIDTH, SCREEN_HEIGHT, screen)
     
     #Draw the fighters on the screen
     player1.draw(screen)

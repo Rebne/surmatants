@@ -14,7 +14,7 @@ class Player():
         self.movingRight = False
         
 
-    def move(self, screen_width, screen_height, surface):
+    def move(self, side, screen_width, screen_height, surface):
         #Movement speed
         SPEED = 10
         GRAVITY = 1.5
@@ -32,40 +32,77 @@ class Player():
         self.jumpSpeed += GRAVITY
         dy += self.jumpSpeed
         
-        #Moving is disabled while attacking
-        if self.isAttacking == False and pygame.time.get_ticks() - self.actionTime > self.actionCD:
-            #Moving lef/right mechanics
-            if key[pygame.K_a] and self.isDucking == False:
-                self.movingRight = False
-                dx = -SPEED
-            if key[pygame.K_d] and self.isDucking == False:
-                self.movingRight = True
-                dx = SPEED
+        if side == "left":
+            #Moving is disabled while attacking
+            if self.isAttacking == False and pygame.time.get_ticks() - self.actionTime > self.actionCD:
+                #Moving lef/right mechanics
+                if key[pygame.K_a] and self.isDucking == False:
+                    self.movingRight = False
+                    dx = -SPEED
+                if key[pygame.K_d] and self.isDucking == False:
+                    self.movingRight = True
+                    dx = SPEED
+                    
+                #Jumping mechanics
+                if key[pygame.K_w] and self.isJumping == False:
+                    self.isJumping = True
+                    self.jumpSpeed = -30    
                 
-            #Jumping mechanics
-            if key[pygame.K_w] and self.isJumping == False:
-                self.isJumping = True
-                self.jumpSpeed = -30    
-            
-            
-            #Ducking mechanics
-            if key[pygame.K_s] and self.isJumping == False:
-                if self.isDucking == False:
-                    self.height = self.height / 2
-                    self.rect.update(self.rect.x, self.rect.y + self.height, self.width, self.height)
-                self.isDucking = True
-            elif self.isJumping == False:
-                self.isDucking = False
-                self.height = 180
-                self.rect.y = ground
-                self.rect.update(self.rect.x, self.rect.y, self.width, self.height)
                 
-            #Attacking mechanics
-            if key[pygame.K_h] and self.isAttacking == False:
-                self.actionTime = pygame.time.get_ticks()
-                print(self.actionTime)
-                self.isAttacking = True
-                self.attacking(surface)
+                #Ducking mechanics
+                if key[pygame.K_s] and self.isJumping == False:
+                    if self.isDucking == False:
+                        self.height = self.height / 2
+                        self.rect.update(self.rect.x, self.rect.y + self.height, self.width, self.height)
+                    self.isDucking = True
+                elif self.isJumping == False:
+                    self.isDucking = False
+                    self.height = 180
+                    self.rect.y = ground
+                    self.rect.update(self.rect.x, self.rect.y, self.width, self.height)
+                    
+                #Attacking mechanics
+                if key[pygame.K_h] and self.isAttacking == False:
+                    self.actionTime = pygame.time.get_ticks()
+                    print(self.actionTime)
+                    self.isAttacking = True
+                    self.attacking(surface)
+                    
+        if side == "right":
+            #Moving is disabled while attacking
+            if self.isAttacking == False and pygame.time.get_ticks() - self.actionTime > self.actionCD:
+                #Moving lef/right mechanics
+                if key[pygame.K_LEFT] and self.isDucking == False:
+                    self.movingRight = False
+                    dx = -SPEED
+                if key[pygame.K_RIGHT] and self.isDucking == False:
+                    self.movingRight = True
+                    dx = SPEED
+                    
+                #Jumping mechanics
+                if key[pygame.K_UP] and self.isJumping == False:
+                    self.isJumping = True
+                    self.jumpSpeed = -30    
+                
+                
+                #Ducking mechanics
+                if key[pygame.K_DOWN] and self.isJumping == False:
+                    if self.isDucking == False:
+                        self.height = self.height / 2
+                        self.rect.update(self.rect.x, self.rect.y + self.height, self.width, self.height)
+                    self.isDucking = True
+                elif self.isJumping == False:
+                    self.isDucking = False
+                    self.height = 180
+                    self.rect.y = ground
+                    self.rect.update(self.rect.x, self.rect.y, self.width, self.height)
+                    
+                #Attacking mechanics
+                if key[pygame.K_KP0] and self.isAttacking == False:
+                    self.actionTime = pygame.time.get_ticks()
+                    print(self.actionTime)
+                    self.isAttacking = True
+                    self.attacking(surface)
             
         
         #Ensures that player stays on screen
