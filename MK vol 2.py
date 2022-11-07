@@ -2,10 +2,11 @@ import pygame
 from player import Player
 import Button as B
 import os
+import sys
 
 print(Player)
 
-# pygame.init()
+pygame.init()
 
 SCREEN_WIDTH = 1080
 SCREEN_HEIGHT = 640
@@ -50,7 +51,7 @@ def main_menu():
         if start_button.draw(screen):
             print("START")
             main()
-        if exit_button.draw(screen):
+        elif exit_button.draw(screen):
             run = False
             print("EXIT")
             pygame.quit()
@@ -97,10 +98,9 @@ def main():
         #Updating the screen
         pygame.display.update()
 
-            
-
     #exit game
     pygame.quit()
+    sys.exit()
 
 if __name__=="__main__":
     main_menu()
