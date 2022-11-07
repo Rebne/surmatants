@@ -51,8 +51,10 @@ def main_menu():
             print("START")
             main()
         if exit_button.draw(screen):
+            run = False
             print("EXIT")
             pygame.quit()
+            break
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -60,7 +62,9 @@ def main_menu():
         keys_pressed = pygame.key.get_pressed()
         if keys_pressed[pygame.K_q]:
             run = False
-    pygame.display.update()
+            break
+    pygame.quit()
+
   
 def main():
     play = True
