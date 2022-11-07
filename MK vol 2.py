@@ -17,8 +17,6 @@ pygame.display.set_caption("MK vol 2")
 player1 = Player(270, 400)
 player2 = Player(810, 400)
 
-
-screen.fill("white")
 bg_image = pygame.image.load(os.path.join("Assets","test.jpg")).convert_alpha()
 
 #Making the game run uniformly on 60FPS
@@ -45,25 +43,30 @@ def main_menu():
     exit_button.right_middle_pos()
     
     while run:
-        pygame.display.update()
+        
         screen.fill((255, 255, 255))
+        keys_pressed = pygame.key.get_pressed()
         # Drawing and using the buttons
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
         if start_button.draw(screen):
             print("START")
             main()
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 5f8a2b5a47aa5bf5337b338e589d414a2193030f
         elif exit_button.draw(screen):
             run = False
             print("EXIT")
             pygame.quit()
             break
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
         # Checks for keys pressed and makes use of 'Q' for quitting the window
-        keys_pressed = pygame.key.get_pressed()
-        if keys_pressed[pygame.K_q]:
+        elif keys_pressed[pygame.K_q]:
             run = False
             break
+        pygame.display.update()
     pygame.quit()
 
   
@@ -91,9 +94,11 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 play = False
+                break
         keys_pressed = pygame.key.get_pressed()
         if keys_pressed[pygame.K_q]:
             play = False
+            break
             
         #Updating the screen
         pygame.display.update()
