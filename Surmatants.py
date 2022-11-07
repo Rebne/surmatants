@@ -12,7 +12,6 @@ SCREEN_WIDTH = 1080
 SCREEN_HEIGHT = 640
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("MK vol 2")
 
 player1 = Player(270, 400)
 player2 = Player(810, 400)
@@ -65,6 +64,7 @@ def main_menu():
             break
         pygame.display.update()
     pygame.quit()
+    sys.exit()
 
   
 def main():
