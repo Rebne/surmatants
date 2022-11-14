@@ -13,8 +13,8 @@ SCREEN_HEIGHT = 640
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-player1 = Player(270, 400)
-player2 = Player(810, 400)
+player1 = Player(270, 400, SCREEN_WIDTH)
+player2 = Player(810, 400, SCREEN_WIDTH)
 
 bg_image = pygame.image.load(os.path.join("Assets","test.jpg")).convert_alpha()
 

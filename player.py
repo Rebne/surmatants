@@ -1,7 +1,8 @@
 import pygame
 
 class Player():
-    def __init__(self, x, y):
+    def __init__(self, x, y, hBarRatio):
+        healthHeight = 30
         self.width = 80
         self.height = 180
         self.rect = pygame.Rect((x, y, self.width, self.height))
@@ -12,7 +13,8 @@ class Player():
         self.actionTime = 0
         self.actionCD = 400
         self.movingRight = False
-        self.health = 100
+        self.healthNr = 100
+        self.health = pygame.Rect(10, 10, self.healthNr * hBarRatio/2, healthHeight)
         
 
     def move(self, side, screen_width, screen_height, surface, enemy):
@@ -126,6 +128,7 @@ class Player():
         
     def draw(self, surface):
         pygame.draw.rect(surface, (0, 0, 255), self.rect)
+        pygame.draw.rect(surface, (0, 255, 0), self.health)
         
         
     def attacking(self, surface, enemy):
@@ -148,6 +151,8 @@ class Player():
         pygame.draw.rect(surface, (255, 0, 0), attackrect)
         if pygame.Rect.colliderect(attackrect, enemy):
             print("HIT")
+            enemy.healthNr -= 10
+            #print(enemy.healthNr)
         self.isAttacking = False
         
         
