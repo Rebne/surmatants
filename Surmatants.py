@@ -80,8 +80,8 @@ def main():
         bg()
         
         #Move fighter
-        player1.move("left" ,SCREEN_WIDTH, SCREEN_HEIGHT, screen)
-        player2.move("right" ,SCREEN_WIDTH, SCREEN_HEIGHT, screen)
+        player1.move("left" ,SCREEN_WIDTH, SCREEN_HEIGHT, screen, player2)
+        player2.move("right" ,SCREEN_WIDTH, SCREEN_HEIGHT, screen, player1)
         
         #Draw the fighters on the screen
         player1.draw(screen)

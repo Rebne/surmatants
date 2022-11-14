@@ -12,9 +12,10 @@ class Player():
         self.actionTime = 0
         self.actionCD = 400
         self.movingRight = False
+        self.health = 100
         
 
-    def move(self, side, screen_width, screen_height, surface):
+    def move(self, side, screen_width, screen_height, surface, enemy):
         #Movement speed
         SPEED = 10
         GRAVITY = 1.5
@@ -64,9 +65,9 @@ class Player():
                 #Attacking mechanics
                 if key[pygame.K_h] and self.isAttacking == False:
                     self.actionTime = pygame.time.get_ticks()
-                    print(self.actionTime)
+                    #print(self.actionTime)
                     self.isAttacking = True
-                    self.attacking(surface)
+                    self.attacking(surface, enemy)
                     
         if side == "right":
             #Moving is disabled while attacking
@@ -102,7 +103,7 @@ class Player():
                     self.actionTime = pygame.time.get_ticks()
                     print(self.actionTime)
                     self.isAttacking = True
-                    self.attacking(surface)
+                    self.attacking(surface, enemy)
             
         
         #Ensures that player stays on screen
@@ -127,7 +128,7 @@ class Player():
         pygame.draw.rect(surface, (0, 0, 255), self.rect)
         
         
-    def attacking(self, surface):
+    def attacking(self, surface, enemy):
         
         #Ducking gives extra reach on the attack
         if self.isDucking == True:
@@ -145,6 +146,8 @@ class Player():
         elif self.movingRight == False:
             attackrect = pygame.Rect(self.rect.centerx - (self.width * ratio), self.rect.y, self.width * ratio, self.height)
         pygame.draw.rect(surface, (255, 0, 0), attackrect)
+        if pygame.Rect.colliderect(attackrect, enemy):
+            print("HIT")
         self.isAttacking = False
         
         
