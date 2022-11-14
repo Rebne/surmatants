@@ -2,7 +2,7 @@ import pygame
 
 class Player():
     def __init__(self, x, y, hBarRatio):
-        healthHeight = 30
+        self.healthHeight = 30
         self.width = 80
         self.height = 180
         self.rect = pygame.Rect((x, y, self.width, self.height))
@@ -14,7 +14,7 @@ class Player():
         self.actionCD = 400
         self.movingRight = False
         self.healthNr = 100
-        self.health = pygame.Rect(10, 10, self.healthNr * hBarRatio/2, healthHeight)
+        self.health = pygame.Rect(x, y - 40, self.healthNr, self.healthHeight)
         
 
     def move(self, side, screen_width, screen_height, surface, enemy):
@@ -103,7 +103,7 @@ class Player():
                 #Attacking mechanics
                 if key[pygame.K_KP0] and self.isAttacking == False:
                     self.actionTime = pygame.time.get_ticks()
-                    print(self.actionTime)
+                    #print(self.actionTime)
                     self.isAttacking = True
                     self.attacking(surface, enemy)
             
@@ -123,7 +123,7 @@ class Player():
         #Player moves according to delta position
         self.rect.y += dy    
         self.rect.x += dx
-        
+        self.health.update(self.rect.x, self.rect.y - 40, self.healthNr, self.healthHeight)
         
         
     def draw(self, surface):
@@ -150,8 +150,9 @@ class Player():
             attackrect = pygame.Rect(self.rect.centerx - (self.width * ratio), self.rect.y, self.width * ratio, self.height)
         pygame.draw.rect(surface, (255, 0, 0), attackrect)
         if pygame.Rect.colliderect(attackrect, enemy):
-            print("HIT")
+            print(f"Player {enemy} HIT")
             enemy.healthNr -= 10
+            enemy.health.update(enemy.rect.x, enemy.rect.y - 40, enemy.healthNr, enemy.healthHeight)
             #print(enemy.healthNr)
         self.isAttacking = False
         
