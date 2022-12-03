@@ -1,43 +1,56 @@
 import pygame
 import sys
+import os
 #fixed h and W from main file
 WIDTH, HEIGHT = 1080, 640
 pygame.font.init()
 # Defines the font
-main_font = pygame.font.SysFont("lucidafax", 50, True, False)
+main_font = pygame.font.Font((os.path.join("Assets","Fonts","dimitri.ttf")), 65)
 
 class Button():
     #attributes pos (x,y), image(picture), scale for the picture, text for the button
-    def __init__(self, x, y, image, scale, text_input):
+    def __init__(self, x, y, image, scale, text_input, on_off):
         #gets w and h from image
-        width = image.get_width()
-        height = image.get_height()
         self.x = x
         self.y = y
+        self.on_off = on_off
         #scales image to prefered size
-        self.image = pygame.transform.scale(image, (int(width * scale), int(height * scale)))
         # h and W for the scaled image (used to center text)
-        scale_width = self.image.get_width()
-        scale_height = self.image.get_height()
-        # rectangle creation
-        self.rect = self.image.get_rect()
-        # rectangle axis
-        self.rect.topleft = (x,y)
-        # variable for limiting click input
-        self.clicked = False
         self.text_input = text_input
         # Renders text
-        self.text = main_font.render(self.text_input, True, "white")
-        # greates a rectangle for text and centers it
-        self.text_rect = self.text.get_rect(center=(self.x + scale_width/2 , self.y + scale_height/2))
+        if self.on_off == True:
+            self.width = image.get_width()
+            self.height = image.get_height()
+            self.image = pygame.transform.scale(image, (int(self.width * scale), int(self.height * scale)))
+            # rectangle creation
+            self.rect = self.image.get_rect()
+            # rectangle axis
+            self.rect.topleft = (x,y)
+            # variable for limiting click input
+            self.clicked = False
+            # greates a rectangle for text and centers it
+            self.text = main_font.render(self.text_input, True, "white")
+            self.text_rect = self.text.get_rect(center=(self.x - (self.width/2) , self.y - (self.height/2)))
+        elif self.on_off == False:
+            self.text = main_font.render(self.text_input, True, "white")
+            # rectangle creation
+            self.rect = self.text.get_rect(center=(x,y))
+            # variable for limiting click input
+            self.clicked = False
+
+
 
 
     def draw(self, surface):
 
         action = False
+
         # draws image on screen
-        surface.blit(self.image, (self.rect.x, self.rect.y))
-        surface.blit(self.text, self.text_rect)
+        if self.on_off == True:
+            surface.blit(self.image, (self.rect.x, self.rect.y))
+            surface.blit(self.text, self.text_rect)
+        else:
+            surface.blit(self.text, (self.rect.x, self.rect.y))
         #get mouse position
         pos = pygame.mouse.get_pos()
         #check mouseover and clicked conditions
