@@ -5,11 +5,13 @@ import os
 import sys
 from pygame import mixer
 
-print(Player)
+#print(Player)
 
+#Initializing
 pygame.init()
 mixer.init()
 
+#Screen parameters
 SCREEN_WIDTH = 1080
 SCREEN_HEIGHT = 640
 
@@ -18,14 +20,30 @@ title_font= pygame.font.Font((os.path.join("Assets","Fonts","snowmelt.ttf")), 80
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-player1 = Player(270, 400, SCREEN_WIDTH)
-player2 = Player(810, 400, SCREEN_WIDTH)
 
+
+#Loading the background images
 bg_image = pygame.image.load(os.path.join("Assets","test.jpg")).convert_alpha()
 bg_menu = pygame.image.load(os.path.join("Assets","white_rain.jpg")).convert_alpha()
+
+#Loading animation sheets ...
+catSheet = pygame.image.load(os.path.join("Assets","sprite_base.png")).convert_alpha()
+
+#Animation data
+animationSize = 64
+catScale = 6
+catOffset = [140,142]
+catAnimationSteps = [4,8,8,10,9,7,6,8,13,10,12,6,8,8,8,6]
+data = [catAnimationSteps, catSheet, animationSize, catScale, catOffset]
+# data2 = 
+
 #Making the game run uniformly on 60FPS
 clock = pygame.time.Clock()
 FPS = 60
+
+#Creating the player objects
+player1 = Player(270, 400, SCREEN_WIDTH, data, True)
+player2 = Player(810, 400, SCREEN_WIDTH, data, False)
 
 #Background image function
 def bg():

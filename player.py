@@ -1,7 +1,7 @@
 import pygame
 
 class Player():
-    def __init__(self, x, y, hBarRatio):
+    def __init__(self, x, y, hBarRatio, animationData, side):
         self.healthHeight = 30
         self.width = 80
         self.height = 180
@@ -12,12 +12,35 @@ class Player():
         self.isAttacking = False
         self.actionTime = 0
         self.actionCD = 400
-        self.movingRight = False
+        self.movingRight = side
+        
         self.alive = True
         self.healthNr = 100
         self.health = pygame.Rect(x, y - 40, self.healthNr, self.healthHeight)
         self.healthBG = pygame.Rect(x, y - 40, 100, self.healthHeight)
         self.healthBorder = pygame.Rect(x - 3, y - 43, 106, self.healthHeight + 6)
+        
+        self.offset = animationData[4]
+        self.size = animationData[2] #Has to be a real size of the sprite
+        self.imageScale = animationData[3] #Scaling ratio for the sprites
+        self.animationList = self.extractImages(animationData[1], animationData[0])
+        self.frameIndex = 0
+        self.action = 0
+        self.image = self.animationList[self.action][self.frameIndex]
+        
+        
+    def extractImages(self, spriteSheet, animationCount):
+        spriteImages = []
+        for column, animation in enumerate(animationCount):
+            rowImgs = []
+            for img in range(animation):
+                tempImg = spriteSheet.subsurface(img * self.size, column * self.size, self.size, self.size)
+                
+                rowImgs.append(pygame.transform.scale(tempImg, (self.size * self.imageScale, self.size * self.imageScale)))
+            spriteImages.append(rowImgs)
+#         print(spriteImages)
+        return spriteImages
+        
         
 
     def move(self, side, screen_width, screen_height, surface, enemy):
@@ -136,7 +159,12 @@ class Player():
         
         
     def draw(self, surface):
+        
         pygame.draw.rect(surface, (0, 0, 255), self.rect)
+        
+        img = pygame.transform.flip(self.image, not self.movingRight, False)
+        surface.blit(img, (self.rect.x - self.offset[0], self.rect.y - self.offset[1]))
+        
         pygame.draw.rect(surface, (0,0,0), self.healthBorder)
         pygame.draw.rect(surface, (255,0,0), self.healthBG)
         pygame.draw.rect(surface, (0, 255, 0), self.health)
