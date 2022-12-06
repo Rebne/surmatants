@@ -26,11 +26,13 @@ class Button():
             self.rect = self.image.get_rect()
             # rectangle axis
             self.rect.topleft = (x,y)
+            width =self.image.get_width()
+            height = self.image.get_height()
             # variable for limiting click input
             self.clicked = False
             # greates a rectangle for text and centers it
             self.text = main_font.render(self.text_input, True, "white")
-            self.text_rect = self.text.get_rect(center=(self.x - (self.width/2) , self.y - (self.height/2)))
+            self.text_rect = self.text.get_rect(center=(self.x - (width/2) , self.y - (height/2)))
         elif self.on_off == False:
             self.text = main_font.render(self.text_input, True, "white")
             # rectangle creation
@@ -86,3 +88,13 @@ class Button():
         self.rect.topleft = (x,y)
         # centers text for button
         self.text_rect = self.text.get_rect(center=(x + width/2, y + height/2))
+    
+    def arena_button(self):
+        global WIDTH, HEIGHT
+        width = self.image.get_width()
+        height = self.image.get_height()
+        self.rect.topleft = (self.x, self.y)
+        # centers text for button
+        self.text_rect = self.text.get_rect(center=(self.x + width/2, self.y + height + 30))
+
+

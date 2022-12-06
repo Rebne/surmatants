@@ -28,21 +28,22 @@ clock = pygame.time.Clock()
 FPS = 60
 
 #Background image function
-def bg():
-    screen.blit(bg_image, (0,0))
+# def bg():
+#     screen.blit(bg_image, (0,0))
 
+click_sound = mixer.Sound((os.path.join("Assets","sounds", "click.mp3")))
+click_sound.set_volume(0.5)
+thunder_sound = mixer.Sound((os.path.join("Assets","sounds", "thunder.mp3")))
+thunder_sound.set_volume(0.6)
 
 def main_menu():
     # Caption for the Menu page
     pygame.display.set_caption("Menu")
     mixer.music.load((os.path.join("Assets","sounds", "bg_storm.mp3")))
     mixer.music.play(-1)
-    mixer.music.set_volume(0.40)
+    mixer.music.set_volume(0.5)
 
-    click_sound = mixer.Sound((os.path.join("Assets","sounds", "click.mp3")))
-    click_sound.set_volume(0.5)
-    thunder_sound = mixer.Sound((os.path.join("Assets","sounds", "thunder.mp3")))
-    thunder_sound.set_volume(0.6)
+    # Loading of sound and setting volume
 
 
     run = True 
@@ -54,9 +55,9 @@ def main_menu():
     start_button = B.Button(SCREEN_WIDTH/2, 250, "", 0.5, "Alusta", False)
 
     exit_button = B.Button(SCREEN_WIDTH/2, 450, "", 0.5, "Sulge", False)
-    level_button = B.Button(SCREEN_WIDTH/2, 350, "", 0.5, "Levelid", False)
+    level_button = B.Button(SCREEN_WIDTH/2, 350, start_img, 0.5, "Areen", False)
     
-
+    # Title font stuff
     title = title_font.render("Surmatants", 1, (255,255,255))
     title_rect  = title.get_rect(center=(SCREEN_WIDTH/2, 100))
 
@@ -84,7 +85,7 @@ def main_menu():
             break
         elif level_button.draw(screen):
             click_sound.play()
-            pass
+            areen()
 
        # Checks for keys pressed and makes use of 'Q' for quitting the window
         elif keys_pressed[pygame.K_q]:
@@ -93,6 +94,46 @@ def main_menu():
         pygame.display.update()
     pygame.quit()
     sys.exit()
+
+def areen():
+    global bg_image
+    pygame.display.set_caption("Areen")
+    run = True
+    areen_sound = mixer.Sound((os.path.join("Assets","sounds", "areen_select2.wav")))
+    areen_sound.set_volume(0.2)
+    #Areenid images
+    galaktika = pygame.image.load(os.path.join("Assets", "galaktika_resize.jpg")).convert_alpha()
+    estcube = pygame.image.load(os.path.join("Assets", "estcube2.jpg")).convert_alpha()
+
+    galaktika_button = B.Button(100, SCREEN_HEIGHT/2, galaktika, 0.25, "Galaktika", True )
+    galaktika_button.arena_button()
+    estcube_button = B.Button(500, SCREEN_HEIGHT/2, estcube, 0.25, "Galaktika", True )
+    estcube_button.arena_button()
+    tagasi_button = B.Button(SCREEN_WIDTH/2, 540, "", 0.5, "Tagasi", False)
+
+    while run:
+        screen.blit(bg_menu,(0,0))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                pygame.quit()
+                sys.exit()
+        if galaktika_button.draw(screen):
+            areen_sound.play()
+            bg_image = galaktika
+            main_menu()
+            run = False
+        elif estcube_button.draw(screen):
+            areen_sound.play
+            bg_image = estcube
+            main_menu()
+            run = False
+        elif tagasi_button.draw(screen):
+            click_sound.play()
+            main_menu()
+            run = False
+        pygame.display.update()
+
 
   
 def main():
@@ -105,7 +146,7 @@ def main():
         clock.tick(FPS)
         
         #Displays the background image
-        bg()
+        screen.blit(bg_image, (0,0))
         
         #Move fighter
         player1.move("left" ,SCREEN_WIDTH, SCREEN_HEIGHT, screen, player2)
