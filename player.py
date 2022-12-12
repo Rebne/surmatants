@@ -11,8 +11,9 @@ class Player():
         self.isJumping = False
         self.isAttacking = False
         self.actionTime = 0
-        self.actionCD = 400
+        self.actionCD = 100
         self.movingRight = side
+        self.moving = False
         
         self.alive = True
         self.healthNr = 100
@@ -20,13 +21,15 @@ class Player():
         self.healthBG = pygame.Rect(x, y - 40, 100, self.healthHeight)
         self.healthBorder = pygame.Rect(x - 3, y - 43, 106, self.healthHeight + 6)
         
+        self.updateTime = pygame.time.get_ticks()
         self.offset = animationData[4]
         self.size = animationData[2] #Has to be a real size of the sprite
         self.imageScale = animationData[3] #Scaling ratio for the sprites
         self.animationList = self.extractImages(animationData[1], animationData[0])
         self.frameIndex = 0
-        self.action = 0
-        self.image = self.animationList[self.action][self.frameIndex]
+        self.action = 0 #0:Idle 1:Walking 2:Jumping 3:Roundabout kick 4:Death 5:Projectile 6:Punch 7:Kick 8:Uppercut 9:Double punch 
+        #10:Double kick 11:High kick 12:Falling kick 13:Double sided punch 14:Rising kick #15:Rising punch
+        self.figther = self.animationList[self.action][self.frameIndex]
         
         
     def extractImages(self, spriteSheet, animationCount):
@@ -55,6 +58,7 @@ class Player():
         dx = 0
         dy = 0
         
+        self.moving = False
         #Detecting keypresses
         key = pygame.key.get_pressed()
         
@@ -62,15 +66,18 @@ class Player():
         dy += self.jumpSpeed
         
         if self.alive:
+            
             if side == "left":
                 #Moving is disabled while attacking
                 if self.isAttacking == False and pygame.time.get_ticks() - self.actionTime > self.actionCD:
                     #Moving lef/right mechanics
                     if key[pygame.K_a] and self.isDucking == False:
                         self.movingRight = False
+                        self.moving = True
                         dx = -SPEED
                     if key[pygame.K_d] and self.isDucking == False:
                         self.movingRight = True
+                        self.moving = True
                         dx = SPEED
                         
                     #Jumping mechanics
@@ -104,9 +111,11 @@ class Player():
                     #Moving lef/right mechanics
                     if key[pygame.K_LEFT] and self.isDucking == False:
                         self.movingRight = False
+                        self.moving = True
                         dx = -SPEED
                     if key[pygame.K_RIGHT] and self.isDucking == False:
                         self.movingRight = True
+                        self.moving = True
                         dx = SPEED
                         
                     #Jumping mechanics
@@ -156,13 +165,43 @@ class Player():
             self.healthBG.update(self.rect.x, self.rect.y - 40, 100, self.healthHeight)
             self.health.update(self.rect.x, self.rect.y - 40, self.healthNr, self.healthHeight)
         
+    def update(self):
+        animationCd = 100
+
+        if self.alive == False:
+            self.action = 4
+        elif self.isAttacking:
+            self.action = 3
+        elif self.isJumping:
+            self.action = 2
+        elif self.moving:
+            self.action = 1
+        else:
+            self.action = 0
         
+        
+        if self.frameIndex >= len(self.animationList[self.action]):
+            if self.alive == False:
+                self.frameIndex = len(self.animationList[self.action]) - 1
+            else:
+                self.frameIndex = 0
+                if self.action == 3:
+                    self.isAttacking = False
+                
+            
+        self.fighter = self.animationList[self.action][self.frameIndex]
+        
+        if pygame.time.get_ticks() - self.updateTime > animationCd:
+            self.frameIndex += 1
+            self.updateTime = pygame.time.get_ticks()
+        
+#         lastAction = self.action
         
     def draw(self, surface):
         
-        pygame.draw.rect(surface, (0, 0, 255), self.rect)
+#         pygame.draw.rect(surface, (0, 0, 255), self.rect)
         
-        img = pygame.transform.flip(self.image, not self.movingRight, False)
+        img = pygame.transform.flip(self.fighter, not self.movingRight, False)
         surface.blit(img, (self.rect.x - self.offset[0], self.rect.y - self.offset[1]))
         
         pygame.draw.rect(surface, (0,0,0), self.healthBorder)
@@ -189,13 +228,13 @@ class Player():
                 attackrect = pygame.Rect(self.rect.centerx, self.rect.y, self.width * ratio, self.height)
             elif self.movingRight == False:
                 attackrect = pygame.Rect(self.rect.centerx - (self.width * ratio), self.rect.y, self.width * ratio, self.height)
-            pygame.draw.rect(surface, (255, 0, 0), attackrect)
+#             pygame.draw.rect(surface, (255, 0, 0), attackrect)
             if pygame.Rect.colliderect(attackrect, enemy):
                 #print(f"Player {enemy} HIT")
                 enemy.healthNr -= 10
                 enemy.health.update(enemy.rect.x, enemy.rect.y - 40, enemy.healthNr, enemy.healthHeight)
                 if enemy.healthNr <= 0:
                     enemy.alive = False
-            self.isAttacking = False
+            
         
         

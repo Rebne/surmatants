@@ -33,7 +33,7 @@ catSheet = pygame.image.load(os.path.join("Assets","sprite_base.png")).convert_a
 animationSize = 64
 catScale = 6
 catOffset = [140,142]
-catAnimationSteps = [4,8,8,10,9,7,6,8,13,10,12,6,8,8,8,6]
+catAnimationSteps = [4,8,8,10,7,7,6,8,13,10,12,6,8,8,8,6]
 data = [catAnimationSteps, catSheet, animationSize, catScale, catOffset]
 # data2 = 
 
@@ -124,6 +124,10 @@ def main():
         
         #Displays the background image
         bg()
+        
+        #Update animation
+        player1.update()
+        player2.update()
         
         #Move fighter
         player1.move("left" ,SCREEN_WIDTH, SCREEN_HEIGHT, screen, player2)
