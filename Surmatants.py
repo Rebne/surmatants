@@ -5,6 +5,8 @@ import os
 import sys
 from pygame import mixer
 import time
+from menu_animation import *
+from random import randint
 
 #print(Player)
 
@@ -20,11 +22,12 @@ title_font= pygame.font.Font((os.path.join("Assets","Fonts","snowmelt.ttf")), 80
 
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-
-
-
-bg_image = pygame.image.load(os.path.join("Assets","areen", "test.jpg")).convert_alpha()
-bg_menu = pygame.image.load(os.path.join("Assets","white_rain.jpg")).convert_alpha()
+praegune_kuu = time.localtime()[1]
+random_areenid = ["galaktika", "physicum", "taj_mahal", "toomkirik", "versailles", "raekoda"]
+if praegune_kuu == 12:
+    random_areenid[-1] = "raekoda_talv"
+taust_img = pygame.image.load(os.path.join("Assets","areen", f"{random_areenid[randint(0,5)]}.jpg")).convert_alpha()
+#bg_menu = pygame.image.load(os.path.join("Assets","white_rain.jpg")).convert_alpha()
 
 #Loading animation sheets ...
 catSheet = pygame.image.load(os.path.join("Assets","sprite_base.png")).convert_alpha()
@@ -53,19 +56,27 @@ thunder_sound = mixer.Sound((os.path.join("Assets","sounds", "thunder.mp3")))
 thunder_sound.set_volume(0.6)
 sound = mixer.Sound((os.path.join("Assets","sounds", "sound.wav")))
 sound.set_volume(0.6)
+music_play_once = False
+
+
 
 def main_menu():
-    global current_time
+    global current_time, menu_animation, music_play_once, taust_img
     current_time = time.time()
     # Caption for the Menu page
     pygame.display.set_caption("Menu")
-    mixer.music.load((os.path.join("Assets","sounds", "bg_storm.mp3")))
-    mixer.music.play(-1)
-    mixer.music.set_volume(0.5)
+    
+    if music_play_once == False:
+        mixer.music.load((os.path.join("Assets","sounds", "thunderstorm.mp3")))
+        mixer.music.play(-1)
+        mixer.music.set_volume(0.5)
+        music_play_once = True
 
 
     run = True 
 
+    menu_animation = Menu_animation()
+    
     # Making use of the button class in Button.py and putting buttons to middle with methods middle_pos
     start_button = Button(SCREEN_WIDTH/2, 250, 0.5, "Alusta")
     exit_button = Button(SCREEN_WIDTH/2, 450, 0.5, "Sulge")
@@ -81,8 +92,9 @@ def main_menu():
     vajutuste_piiraja = 1
     while run:
         
-        #screen.fill((0,0,0))
-        screen.blit(bg_menu, (0,0))
+        screen.fill((255,255,255))
+        screen.blit(menu_animation.frame, (0,0))
+        menu_animation.update()
         keys_pressed = pygame.key.get_pressed()
         # Drawing and using the buttons
         screen.blit(title, title_rect)
@@ -92,8 +104,7 @@ def main_menu():
         if start_button.draw(screen) and time.time() - current_time > 0.1:
             thunder_sound.play()
             mixer.music.fadeout(500)
-            print("START")
-            main()
+            lightning_fade()
             
         elif exit_button.draw(screen) and time.time() - current_time > 0.1:
             run = False
@@ -106,6 +117,7 @@ def main_menu():
             areen()
         elif button.draw(screen) and time.time() - current_time > 0.1 and vajutuste_piiraja == 1:
             sound.play()
+            taust_img = pygame.image.load(os.path.join("Assets","areen", "test.jpg")).convert_alpha()
             vajutuste_piiraja = 0
        # Checks for keys pressed and makes use of 'Q' for quitting the window
         elif keys_pressed[pygame.K_q]:
@@ -115,13 +127,48 @@ def main_menu():
     pygame.quit()
     sys.exit()
 
+def lightning_fade():
+    start_button = Button(SCREEN_WIDTH/2, 250, 0.5, "Alusta")
+    exit_button = Button(SCREEN_WIDTH/2, 450, 0.5, "Sulge")
+    level_button = Button(SCREEN_WIDTH/2, 350, 0.5, "Areen")
+    run = True
+    # Title font stuff
+    title = title_font.render("Surmatants", 1, (255,255,255))
+    title_rect  = title.get_rect(center=(SCREEN_WIDTH/2, 100))
+    lightning = Lightning()
+    # menu_animation = Menu_animation()
+    while run:
+        screen.fill((255,255,255))
+        # screen.blit(menu_animation.frame, (0,0))
+        # menu_animation.update()
+        screen.blit(lightning.frame,(0,0))
+        lightning.update()
+        keys_pressed = pygame.key.get_pressed()
+        # Drawing and using the buttons
+        screen.blit(title, title_rect)
+        screen.blit(start_button.text, start_button.rect)
+        screen.blit(exit_button.text, exit_button.rect)
+        screen.blit(level_button.text, level_button.rect)
+        if lightning.update() == -1:
+            print("START")
+            main()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+        if keys_pressed[pygame.K_q]:
+            run = False
+            break
+        pygame.display.update()
+    pygame.quit()
+    sys.exit()
+
 def areen():
-    global bg_image, current_time
+    global menu_animation, current_time, taust_img, praegune_kuu
     pygame.display.set_caption("Areen")
     run = True
     areen_sound = mixer.Sound((os.path.join("Assets","sounds", "areen_select2.wav")))
     areen_sound.set_volume(0.2)
-    praegune_kuu = time.localtime()[1]
 
     #Areenid images
     galaktika = pygame.image.load(os.path.join("Assets","areen", "galaktika.jpg")).convert_alpha()
@@ -151,7 +198,8 @@ def areen():
     tagasi_button = Button(SCREEN_WIDTH/2, SCREEN_HEIGHT - 50, 0.5, "Tagasi")
 
     while run:
-        screen.blit(bg_menu,(0,0))
+        screen.blit(menu_animation.frame,(0,0))
+        menu_animation.update_areen()
         keys_pressed = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -161,27 +209,27 @@ def areen():
 
         if galaktika_button.draw(screen) and time.time() - current_time > 0.1:
             areen_sound.play()
-            bg_image = galaktika
+            taust_img = galaktika
             main_menu()
         elif physicum_button.draw(screen) and time.time() - current_time > 0.1:
             areen_sound.play()
-            bg_image = physicum
+            taust_img = physicum
             main_menu()
         elif tajmahal_button.draw(screen) and time.time() - current_time > 0.1:
             areen_sound.play()
-            bg_image = taj_mahal
+            taust_img = taj_mahal
             main_menu()
         elif toomkirik_button.draw(screen) and time.time() - current_time > 0.1:
             areen_sound.play()
-            bg_image = toomkirik
+            taust_img = toomkirik
             main_menu()
         elif versailles_button.draw(screen) and time.time() - current_time > 0.1:
             areen_sound.play()
-            bg_image = versailles
+            taust_img = versailles
             main_menu()
         elif raekoda_button.draw(screen) and time.time() - current_time > 0.1:
             areen_sound.play()
-            bg_image = raekoda
+            taust_img = raekoda
             main_menu()
 
         elif tagasi_button.draw(screen) and time.time() - current_time > 0.1:
@@ -205,7 +253,7 @@ def main():
         clock.tick(FPS)
         
         #Displays the background image
-        screen.blit(bg_image, (0,0))
+        screen.blit(taust_img, (0,0))
         
         #Update animation
         player1.update()

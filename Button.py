@@ -26,7 +26,7 @@ class Button():
 
     def draw(self, surface):
         action = False
-        surface.blit(self.text, (self.rect.x, self.rect.y))
+        surface.blit(self.text, self.rect)
         #get mouse position
         mouse_position = pygame.mouse.get_pos()
         #check mouseover and clicked conditions
