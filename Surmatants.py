@@ -8,9 +8,11 @@ import time
 
 print(Player)
 
+#Initializing
 pygame.init()
 mixer.init()
 
+#Screen parameters
 SCREEN_WIDTH = 1080
 SCREEN_HEIGHT = 640
 
@@ -24,6 +26,17 @@ player2 = Player(810, 400, SCREEN_WIDTH)
 
 bg_image = pygame.image.load(os.path.join("Assets","areen", "test.jpg")).convert_alpha()
 bg_menu = pygame.image.load(os.path.join("Assets","white_rain.jpg")).convert_alpha()
+
+#Loading animation sheets ...
+catSheet = pygame.image.load(os.path.join("Assets","sprite_base.png")).convert_alpha()
+
+#Animation data
+animationSize = 64
+catScale = 6
+catOffset = [140,142]
+catAnimationSteps = [4,8,8,10,9,7,6,8,13,10,12,6,8,8,8,6]
+data = [catAnimationSteps, catSheet, animationSize, catScale, catOffset]
+# data2 = 
 
 #Making the game run uniformly on 60FPS
 clock = pygame.time.Clock()
