@@ -59,8 +59,6 @@ class arena_button(Button):
         self.rect.topleft = (x, y)
         # centers text for button
         self.text_rect = self.text.get_rect(center=(self.x + (scale * width) // 2, self.y + (scale *height) + 30))
-        print(scale*height,scale*width)
-        print(self.text.get_width(), self.text.get_height())
 
     def draw(self, surface):
         action = False
