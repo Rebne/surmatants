@@ -251,6 +251,9 @@ def main():
     mixer.music.load((os.path.join("Assets","fight_music.wav")))
     mixer.music.play(-1, fade_ms=900 ) 
     mixer.music.set_volume(0.1)
+    game_over_sound = mixer.Sound((os.path.join("Assets","sounds", "game_over.mp3")))
+    game_over_sound.set_volume(0.3)
+    play_once = True
     while play == True:
         
         #Makes this loop run 60FPS
@@ -263,6 +266,10 @@ def main():
         player1.update()
         player2.update()
         
+        if player1.healthNr <= 0 or player2.healthNr <= 0 and play_once == True:
+            game_over_sound.play()
+            play_once = False
+
         #Move fighter
         player1.move("left" ,SCREEN_WIDTH, SCREEN_HEIGHT, screen, player2)
         player2.move("right" ,SCREEN_WIDTH, SCREEN_HEIGHT, screen, player1)
