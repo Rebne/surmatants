@@ -31,6 +31,7 @@ taust_img = pygame.image.load(os.path.join("Assets","areen", f"{random_areenid[r
 
 #Loading animation sheets ...
 catSheet = pygame.image.load(os.path.join("Assets","sprite_base.png")).convert_alpha()
+catSheet2 = pygame.image.load(os.path.join("Assets","sprite_base2.png")).convert_alpha()
 
 #Animation data
 animationSize = 64
@@ -38,7 +39,7 @@ catScale = 6
 catOffset = [140,142]
 catAnimationSteps = [4,8,8,10,7,7,6,8,13,10,12,6,8,8,8,6]
 data = [catAnimationSteps, catSheet, animationSize, catScale, catOffset]
-# data2 = 
+data2 = [catAnimationSteps, catSheet2, animationSize, catScale, catOffset]
 
 #Making the game run uniformly on 60FPS
 clock = pygame.time.Clock()
@@ -46,7 +47,7 @@ FPS = 60
 
 #Creating the player objects
 player1 = Player(270, 400, SCREEN_WIDTH, data, True)
-player2 = Player(810, 400, SCREEN_WIDTH, data, False)
+player2 = Player(810, 400, SCREEN_WIDTH, data2, False)
 
 #Background image function
 
