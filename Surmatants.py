@@ -250,7 +250,7 @@ def main():
     #Game loop
     mixer.music.load((os.path.join("Assets","fight_music.wav")))
     mixer.music.play(-1, fade_ms=900 ) 
-    mixer.music.set_volume(0.2)
+    mixer.music.set_volume(0.1)
     while play == True:
         
         #Makes this loop run 60FPS
