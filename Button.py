@@ -4,7 +4,7 @@ from time import time
 #fixed h and W from main file
 WIDTH, HEIGHT = 1080, 640
 pygame.font.init()
-
+# https://youtu.be/G8MYGDf_9ho
 # Defines the font
 main_font = pygame.font.Font((os.path.join("Assets","Fonts","dimitri.ttf")), 65)
 arena_font = pygame.font.Font((os.path.join("Assets","Fonts","dimitri.ttf")), round(65 * 0.8))
