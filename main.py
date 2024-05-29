@@ -78,11 +78,11 @@ def main_menu():
 
     menu_animation = Menu_animation()
     
-    # Making use of the button class in Button.py and putting buttons to middle with methods middle_pos
-    start_button = Button(SCREEN_WIDTH/2, 250, 0.5, "Alusta")
-    exit_button = Button(SCREEN_WIDTH/2, 450, 0.5, "Sulge")
-    level_button = Button(SCREEN_WIDTH/2, 350, 0.5, "Areen")
-    button = Button(1,1,1,"",)
+    # Making use of the button class in button.py and putting buttons to middle with methods middle_pos
+    start_button = button(SCREEN_WIDTH/2, 250, 0.5, "Alusta")
+    exit_button = button(SCREEN_WIDTH/2, 450, 0.5, "Sulge")
+    level_button = button(SCREEN_WIDTH/2, 350, 0.5, "Areen")
+    button = button(1,1,1,"",)
     button.saladus()
 
 
@@ -129,9 +129,9 @@ def main_menu():
     sys.exit()
 
 def lightning_fade():
-    start_button = Button(SCREEN_WIDTH/2, 250, 0.5, "Alusta")
-    exit_button = Button(SCREEN_WIDTH/2, 450, 0.5, "Sulge")
-    level_button = Button(SCREEN_WIDTH/2, 350, 0.5, "Areen")
+    start_button = button(SCREEN_WIDTH/2, 250, 0.5, "Alusta")
+    exit_button = button(SCREEN_WIDTH/2, 450, 0.5, "Sulge")
+    level_button = button(SCREEN_WIDTH/2, 350, 0.5, "Areen")
     run = True
     # Title font stuff
     title = title_font.render("Surmatants", 1, (255,255,255))
@@ -196,7 +196,7 @@ def areen():
     versailles_button = arena_button(veerg_2, teine_rida, versailles, 0.25, "versailles")
     raekoda_button = arena_button(veerg_3, teine_rida, raekoda, 0.25, "raekoda")
 
-    tagasi_button = Button(SCREEN_WIDTH/2, SCREEN_HEIGHT - 50, 0.5, "Tagasi")
+    tagasi_button = button(SCREEN_WIDTH/2, SCREEN_HEIGHT - 50, 0.5, "Tagasi")
 
     while run:
         screen.blit(menu_animation.frame,(0,0))

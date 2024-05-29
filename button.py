@@ -9,7 +9,7 @@ pygame.font.init()
 main_font = pygame.font.Font((os.path.join("assets","fonts","dimitri.ttf")), 65)
 arena_font = pygame.font.Font((os.path.join("assets","fonts","dimitri.ttf")), round(65 * 0.8))
 
-class Button():
+class button():
     #attributes mouse_position (x,y), image(picture), scale for the picture, text for the button
     def __init__(self, x, y, scale, text_input):
         #gets w and h from image
@@ -46,7 +46,7 @@ class Button():
 
 
 
-class arena_button(Button):
+class arena_button(button):
     def __init__(self, x, y, image, scale, text_input):
         super().__init__(x, y, scale, text_input)
         self.image = image
