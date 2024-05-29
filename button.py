@@ -6,8 +6,8 @@ WIDTH, HEIGHT = 1080, 640
 pygame.font.init()
 # https://youtu.be/G8MYGDf_9ho
 # Defines the font
-main_font = pygame.font.Font((os.path.join("Assets","Fonts","dimitri.ttf")), 65)
-arena_font = pygame.font.Font((os.path.join("Assets","Fonts","dimitri.ttf")), round(65 * 0.8))
+main_font = pygame.font.Font((os.path.join("assets","fonts","dimitri.ttf")), 65)
+arena_font = pygame.font.Font((os.path.join("assets","fonts","dimitri.ttf")), round(65 * 0.8))
 
 class Button():
     #attributes mouse_position (x,y), image(picture), scale for the picture, text for the button
