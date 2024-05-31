@@ -1,6 +1,6 @@
 import pygame
 from player import Player
-from button import *
+from Button import *
 import os
 import sys
 from pygame import mixer
@@ -18,7 +18,7 @@ mixer.init()
 SCREEN_WIDTH = 1080
 SCREEN_HEIGHT = 640
 
-title_font= pygame.font.Font((os.path.join("assets","fonts","snowmelt.ttf")), 80)
+title_font= pygame.font.Font((os.path.join("Assets","Fonts","snowmelt.ttf")), 80)
 
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -26,12 +26,12 @@ praegune_kuu = time.localtime()[1]
 random_areenid = ["galaktika", "physicum", "taj_mahal", "toomkirik", "versailles", "raekoda"]
 if praegune_kuu == 12:
     random_areenid[-1] = "raekoda_talv"
-taust_img = pygame.image.load(os.path.join("assets","areen", f"{random_areenid[randint(0,5)]}.jpg")).convert_alpha()
-#bg_menu = pygame.image.load(os.path.join("assets","white_rain.jpg")).convert_alpha()
+taust_img = pygame.image.load(os.path.join("Assets","areen", f"{random_areenid[randint(0,5)]}.jpg")).convert_alpha()
+#bg_menu = pygame.image.load(os.path.join("Assets","white_rain.jpg")).convert_alpha()
 
 #Loading animation sheets ...
-catSheet = pygame.image.load(os.path.join("assets","sprite_base.png")).convert_alpha()
-catSheet2 = pygame.image.load(os.path.join("assets","sprite_base2.png")).convert_alpha()
+catSheet = pygame.image.load(os.path.join("Assets","sprite_base.png")).convert_alpha()
+catSheet2 = pygame.image.load(os.path.join("Assets","sprite_base2.png")).convert_alpha()
 
 #Animation data
 animationSize = 64
@@ -51,11 +51,11 @@ player2 = Player(810, 400, SCREEN_WIDTH, data2, False)
 
 #Background image function
 
-click_sound = mixer.Sound((os.path.join("assets","sounds", "click.mp3")))
+click_sound = mixer.Sound((os.path.join("Assets","sounds", "click.mp3")))
 click_sound.set_volume(0.5)
-thunder_sound = mixer.Sound((os.path.join("assets","sounds", "thunder.mp3")))
+thunder_sound = mixer.Sound((os.path.join("Assets","sounds", "thunder.mp3")))
 thunder_sound.set_volume(0.6)
-sound = mixer.Sound((os.path.join("assets","sounds", "sound.wav")))
+sound = mixer.Sound((os.path.join("Assets","sounds", "sound.wav")))
 sound.set_volume(0.6)
 music_play_once = False
 
@@ -68,7 +68,7 @@ def main_menu():
     pygame.display.set_caption("Menu")
     
     if music_play_once == False:
-        mixer.music.load((os.path.join("assets","sounds", "thunderstorm.mp3")))
+        mixer.music.load((os.path.join("Assets","sounds", "thunderstorm.mp3")))
         mixer.music.play(-1)
         mixer.music.set_volume(0.5)
         music_play_once = True
@@ -78,11 +78,11 @@ def main_menu():
 
     menu_animation = Menu_animation()
     
-    # Making use of the button class in button.py and putting buttons to middle with methods middle_pos
-    start_button = button(SCREEN_WIDTH/2, 250, 0.5, "Alusta")
-    exit_button = button(SCREEN_WIDTH/2, 450, 0.5, "Sulge")
-    level_button = button(SCREEN_WIDTH/2, 350, 0.5, "Areen")
-    button = button(1,1,1,"",)
+    # Making use of the button class in Button.py and putting buttons to middle with methods middle_pos
+    start_button = Button(SCREEN_WIDTH/2, 250, 0.5, "Alusta")
+    exit_button = Button(SCREEN_WIDTH/2, 450, 0.5, "Sulge")
+    level_button = Button(SCREEN_WIDTH/2, 350, 0.5, "Areen")
+    button = Button(1,1,1,"",)
     button.saladus()
 
 
@@ -118,7 +118,7 @@ def main_menu():
             areen()
         elif button.draw(screen) and time.time() - current_time > 0.1 and vajutuste_piiraja == 1:
             sound.play()
-            taust_img = pygame.image.load(os.path.join("assets","areen", "test.jpg")).convert_alpha()
+            taust_img = pygame.image.load(os.path.join("Assets","areen", "test.jpg")).convert_alpha()
             vajutuste_piiraja = 0
        # Checks for keys pressed and makes use of 'Q' for quitting the window
         elif keys_pressed[pygame.K_q]:
@@ -129,9 +129,9 @@ def main_menu():
     sys.exit()
 
 def lightning_fade():
-    start_button = button(SCREEN_WIDTH/2, 250, 0.5, "Alusta")
-    exit_button = button(SCREEN_WIDTH/2, 450, 0.5, "Sulge")
-    level_button = button(SCREEN_WIDTH/2, 350, 0.5, "Areen")
+    start_button = Button(SCREEN_WIDTH/2, 250, 0.5, "Alusta")
+    exit_button = Button(SCREEN_WIDTH/2, 450, 0.5, "Sulge")
+    level_button = Button(SCREEN_WIDTH/2, 350, 0.5, "Areen")
     run = True
     # Title font stuff
     title = title_font.render("Surmatants", 1, (255,255,255))
@@ -168,20 +168,20 @@ def areen():
     global menu_animation, current_time, taust_img, praegune_kuu
     pygame.display.set_caption("Areen")
     run = True
-    areen_sound = mixer.Sound((os.path.join("assets","sounds", "areen_select2.wav")))
+    areen_sound = mixer.Sound((os.path.join("Assets","sounds", "areen_select2.wav")))
     areen_sound.set_volume(0.2)
 
     #Areenid images
-    galaktika = pygame.image.load(os.path.join("assets","areen", "galaktika.jpg")).convert_alpha()
-    physicum = pygame.image.load(os.path.join("assets","areen", "physicum.jpg")).convert_alpha()
-    taj_mahal = pygame.image.load(os.path.join("assets","areen", "taj_mahal.jpg")).convert_alpha()
-    toomkirik = pygame.image.load(os.path.join("assets","areen", "toomkirik.jpg")).convert_alpha()
-    versailles = pygame.image.load(os.path.join("assets","areen", "versailles.jpg")).convert_alpha()
+    galaktika = pygame.image.load(os.path.join("Assets","areen", "galaktika.jpg")).convert_alpha()
+    physicum = pygame.image.load(os.path.join("Assets","areen", "physicum.jpg")).convert_alpha()
+    taj_mahal = pygame.image.load(os.path.join("Assets","areen", "taj_mahal.jpg")).convert_alpha()
+    toomkirik = pygame.image.load(os.path.join("Assets","areen", "toomkirik.jpg")).convert_alpha()
+    versailles = pygame.image.load(os.path.join("Assets","areen", "versailles.jpg")).convert_alpha()
 
     if praegune_kuu == 12:
-        raekoda = pygame.image.load(os.path.join("assets","areen", "raekoda_talv.jpg")).convert_alpha()
+        raekoda = pygame.image.load(os.path.join("Assets","areen", "raekoda_talv.jpg")).convert_alpha()
     else:
-        raekoda = pygame.image.load(os.path.join("assets","areen", "raekoda.jpg")).convert_alpha()
+        raekoda = pygame.image.load(os.path.join("Assets","areen", "raekoda.jpg")).convert_alpha()
     
     esimene_rida = 54
     teine_rida = 324
@@ -196,7 +196,7 @@ def areen():
     versailles_button = arena_button(veerg_2, teine_rida, versailles, 0.25, "versailles")
     raekoda_button = arena_button(veerg_3, teine_rida, raekoda, 0.25, "raekoda")
 
-    tagasi_button = button(SCREEN_WIDTH/2, SCREEN_HEIGHT - 50, 0.5, "Tagasi")
+    tagasi_button = Button(SCREEN_WIDTH/2, SCREEN_HEIGHT - 50, 0.5, "Tagasi")
 
     while run:
         screen.blit(menu_animation.frame,(0,0))
@@ -248,10 +248,10 @@ def main():
     play = True
     pygame.display.set_caption("Surmatants")
     #Game loop
-    mixer.music.load((os.path.join("assets","fight_music.wav")))
+    mixer.music.load((os.path.join("Assets","fight_music.wav")))
     mixer.music.play(-1, fade_ms=900 ) 
     mixer.music.set_volume(0.1)
-    game_over_sound = mixer.Sound((os.path.join("assets","sounds", "game_over.mp3")))
+    game_over_sound = mixer.Sound((os.path.join("Assets","sounds", "game_over.mp3")))
     game_over_sound.set_volume(0.3)
     play_once = True
     while play == True:
