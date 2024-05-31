@@ -1,6 +1,6 @@
 import pygame
 from player import Player
-from Button import *
+from button import *
 import os
 import sys
 from pygame import mixer
